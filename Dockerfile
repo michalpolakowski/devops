@@ -10,7 +10,7 @@ WORKDIR /opt/devops
 
 # 2. to rozwiązanie nie będzie przebudowywało całości image przy zmianie jakiegoś kodu w index.js
 COPY ./package.json ./
-RUN npm install
+RUN yarn install
 # od package.json zależy co będzie instalowane w npm
 # instalowanie pakietów zajmie najdłużej, dlatego staramy się jak najrzadziej przebudowywać tą warstwę
 

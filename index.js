@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const {Pool} = require('pg');
+require('dotenv').config()
 
 const pgClient = new Pool({
-  user: 'postgres',
-  password: 'mypass',
-  database: 'postgres',
-  host: 'mypostgres',
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  host: process.env.POSTGRES_HOST,
   port: '5432'
 })
 
@@ -17,7 +18,6 @@ pgClient.query('CREATE TABLE IF NOT EXISTS numbers (number INT)').catch(err => {
   console.log(err)
 })
 
-
 const PORT = 9000;
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(express.json());
 const redis = require('redis');
 
 const redisClient = redis.createClient({
-  host: 'myredis',
+  host: process.env.REDIS_HOST,
   port: 6379,
   // retry_strategy: () => 1000
 });

@@ -16,6 +16,14 @@ router.get('/pub/:id', (req, res) => {
   )
 })
 
+router.delete('/pub/:id', (req, res) => {
+  pgClient.query(`DELETE FROM pubs WHERE id = ${req.params.id};`).then(
+    () => res.send('DELETED')
+  ).catch(() => [
+    res.send('FAILED')
+  ])
+})
+
 router.post('/pubs', (req, res) => {
   const queryText = `INSERT INTO pubs (city, name, capacity) VALUES ($1, $2, $3);`;
   const properties = [req.body.city, req.body.name, req.body.capacity];

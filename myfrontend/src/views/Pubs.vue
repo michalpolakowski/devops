@@ -2,11 +2,16 @@
   <DataTable :value="pubs">
     <Column field="name" header="Name">
       <template #body="pub">
-        <router-link :to='`/pub/${pub.data.id}`'>{{pub.data.name}}</router-link>
+        <router-link :to='`/pub/${pub.data.id}`'>{{ pub.data.name }}</router-link>
       </template>
     </Column>
     <Column field="city" header="City"></Column>
     <Column field="capacity" header="Capacity"></Column>
+    <Column header="Delete">
+      <template #body="pub">
+        <Button label="DELETE" class="p-button-danger" v-on:click="deletePub(pub.data.id)"/>
+      </template>
+    </Column>
   </DataTable>
 </template>
 
@@ -21,8 +26,18 @@ export default {
       pubs: []
     }
   },
+  methods: {
+    deletePub( id ) {
+      axios.delete(`http://localhost:9090/base/pub/${id}`).then(
+          () => {
+            console.log(this.pubs.filter(pub => pub.id !== id), id)
+            this.pubs = this.pubs.filter(pub => pub.id !== id)
+          }
+      )
+    }
+  },
   mounted() {
-    axios.get('http://localhost:9090/base/pubs/').then((resp) => this.pubs = resp.data)
+    axios.get('http://localhost:9090/base/pubs/').then(( resp ) => this.pubs = resp.data)
   }
 }
 </script>

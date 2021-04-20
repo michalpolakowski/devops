@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="p-mb-3">
-      <Button v-on:click="createPub(formData)">Create pub</Button>
+      <Button v-on:click="createPub">Create pub</Button>
       <div v-if="pubCreated">PUB CREATED</div>
       <div v-if="error">SOMETHING WENT WRONG</div>
     </div>
@@ -44,8 +44,8 @@ export default {
     }
   },
   methods: {
-    createPub( formData ) {
-      axios.post('http://localhost:9090/base/pubs', formData).then(
+    createPub() {
+      axios.post('http://localhost:9090/base/pubs', this.formData).then(
           () => this.pubCreated = true,
       ).catch(err => {
         this.error = true;

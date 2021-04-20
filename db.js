@@ -10,30 +10,23 @@ const pgClient = new Pool({
 
 pgClient.on('error', () => console.log('Postgres not working'))
 
-const User = {
-  name: 'users',
-  tableProperties: {
-    login: 'login VARCHAR',
-    password: 'password VARCHAR',
-    firstName: 'firstName VARCHAR',
-    lastName: 'lastName VARCHAR'
-  }
-}
-
 const Pub = {
   name: 'pubs',
   tableProperties: {
-    name: 'name VARCHAR'
+    name: 'name VARCHAR',
+    capacity: 'capacity INT',
+    city: 'city VARCHAR'
   }
 }
 
-ALL_MODELS = [User, Pub]
+ALL_MODELS = [Pub]
 
 const createTable = ( model ) => {
   const tableProperties = Object.getOwnPropertyNames(model.tableProperties)
     .map(property => model.tableProperties[property])
     .join(', ')
   pgClient.query(`CREATE TABLE IF NOT EXISTS ${model.name} (${tableProperties});`).catch(err => console.log(err));
+  console.log(`Model ${model.name} added to database`)
 }
 
 const createTables = () => {

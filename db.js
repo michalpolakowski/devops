@@ -13,6 +13,7 @@ pgClient.on('error', () => console.log('Postgres not working'))
 const Pub = {
   name: 'pubs',
   tableProperties: {
+    id: 'id SERIAL PRIMARY KEY',
     name: 'name VARCHAR',
     capacity: 'capacity INT',
     city: 'city VARCHAR'

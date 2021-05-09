@@ -7,9 +7,10 @@
     </Column>
     <Column field="city" header="City"></Column>
     <Column field="capacity" header="Capacity"></Column>
-    <Column header="Delete">
+    <Column header="Actions">
       <template #body="pub">
         <Button label="DELETE" class="p-button-danger" v-on:click="deletePub(pub.data.id)"/>
+        <Button label="EDIT" class="p-button-warning" v-on:click="navigateToEdit(pub.data.id)"/>
       </template>
     </Column>
   </DataTable>
@@ -30,14 +31,16 @@ export default {
     deletePub( id ) {
       axios.delete(`http://localhost:9090/base/pub/${id}`).then(
           () => {
-            console.log(this.pubs.filter(pub => pub.id !== id), id)
             this.pubs = this.pubs.filter(pub => pub.id !== id)
           }
       )
+    },
+    navigateToEdit( id ) {
+      this.$router.push(`/edit-pub/${id}`)
     }
   },
   mounted() {
-    axios.get('http://localhost:9090/base/pubs/').then(( resp ) => this.pubs = resp.data)
+    axios.get('/api/base/pubs/').then(( resp ) => this.pubs = resp.data)
   }
 }
 </script>

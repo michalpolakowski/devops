@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="p-mb-3">
-      <Button v-on:click="createPub">Create pub</Button>
-      <div v-if="pubCreated">PUB CREATED</div>
+      <Button v-on:click="createPub">{{editMode ? 'Edit pub' : 'Create pub'}}</Button>
+      <div v-if="success">PUB CREATED</div>
       <div v-if="error">SOMETHING WENT WRONG</div>
     </div>
   </div>
@@ -39,18 +39,42 @@ export default {
         city: '',
         capacity: 0
       },
-      pubCreated: false,
-      error: false
+      success: false,
+      error: false,
+      editMode: false,
+      pub: {}
     }
   },
   methods: {
     createPub() {
       axios.post('http://localhost:9090/base/pubs', this.formData).then(
-          () => this.pubCreated = true,
+          () => this.success = true,
       ).catch(err => {
         this.error = true;
         console.log(err)
       })
+    },
+    editPub() {
+      axios.patch('http://localhost:9090/base/pubs', this.formData).then(
+          () => this.success = true,
+      ).catch(err => {
+        this.error = true;
+        console.log(err)
+      })
+    }
+  },
+  mounted() {
+    console.log(this.$route.params)
+    if (this.$route.params.id) {
+      this.editMode = true;
+      this.axios.get(`http://localhost:9090/base/pubs/${this.$route.params.id}`).then(
+          pub => {
+            this.pub = pub
+            this.formData.capacity = pub.data.capacity
+            this.formData.city = pub.data.city
+            this.formData.name = pub.data.name
+          }
+      )
     }
   }
 }

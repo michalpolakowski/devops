@@ -19,6 +19,11 @@ const routes = [
     path: '/pub/:id',
     name: 'Pub details',
     component: PubDetail
+  },
+  {
+    path: '/edit-pub/:id',
+    name: 'Edit pub',
+    component: PubForm
   }
 ]
 

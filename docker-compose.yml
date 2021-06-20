@@ -3,6 +3,7 @@ version: '3'
 services:
   myredis:
     image: 'redis:alpine'
+
   mypostgres:
     image: 'postgres:alpine'
     environment:
@@ -11,6 +12,12 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - /home/varist/school/databasedata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U 1234user -d mydb" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   mybackend:
     build:
       dockerfile: Dockerfile.dev
@@ -24,15 +31,23 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - REDIS_HOST=${REDIS_HOST}
       - POSTGRES_HOST=${POSTGRES_HOST}
+    depends_on:
+      mypostgres:
+        condition: service_healthy
     ports:
       - "9090:9000"
+
   mynginx:
     restart: always
     build:
       dockerfile: Dockerfile
-      context: mynginx/
+      context: ./mynginx
     ports:
-      - "9000:80"
+      - 80:80
+    depends_on:
+      - mybackend
+      - myfrontend
+
   myfrontend:
     build:
       dockerfile: Dockerfile.dev

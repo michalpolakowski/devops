@@ -26,8 +26,9 @@ const createTable = ( model ) => {
   const tableProperties = Object.getOwnPropertyNames(model.tableProperties)
     .map(property => model.tableProperties[property])
     .join(', ')
-  pgClient.query(`CREATE TABLE IF NOT EXISTS ${model.name} (${tableProperties});`).catch(err => console.log(err));
-  console.log(`Model ${model.name} added to database`)
+  pgClient.query(`CREATE TABLE IF NOT EXISTS ${model.name} (${tableProperties});`).then(
+    () => console.log(`Model ${model.name} added to database`)
+  ).catch(err => console.log(err));
 }
 
 const createTables = () => {

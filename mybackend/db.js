@@ -5,7 +5,7 @@ const pgClient = new Pool({
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   host: process.env.POSTGRES_HOST,
-  port: '5432'
+  port: 5432
 })
 
 pgClient.on('error', () => console.log('Postgres not working'))

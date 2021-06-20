@@ -3,16 +3,28 @@ const {pgClient} = require("../db");
 
 const router = express.Router()
 
+router.get('/healtz', (req, res) => res.send())
+
 router.get('/pubs', ( req, res ) => {
   pgClient.query('SELECT * FROM pubs').then(pubs => {
     res.json(pubs.rows)
+  }).catch(err => {
+    console.log(err)
+    res.send({
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      host: process.env.POSTGRES_HOST,
+      port: 5432,
+      ...err
+    })
   })
 });
 
 router.get('/pub/:id', ( req, res ) => {
   pgClient.query(`SELECT * FROM pubs WHERE id = ${req.params.id} LIMIT 1;`).then(
     pub => res.json(pub.rows[0])
-  )
+  ).catch(err => console.log(err))
 })
 
 router.delete('/pub/:id', ( req, res ) => {

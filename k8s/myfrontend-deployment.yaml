@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mybackend-deployment
+  labels:
+    component: mybackend
+    app: my-app
+
+spec:
+  template:
+    metadata:
+      name: mybackend-pod
+      labels:
+        component: mybackend
+        app: my-app
+    spec:
+      containers:
+        - name: mybackend-container
+          image: antongreen/myfrontend
+
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      component: mybackend

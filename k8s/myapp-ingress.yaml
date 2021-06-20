@@ -8,20 +8,20 @@ metadata:
 
 spec:
   rules:
-    - host: localhost
+    - host: myapp-ingress
       http:
         paths:
-          - path: /(.*)
+          - path: /api/(.*)
             pathType: Prefix
             backend:
               service:
-                name: mybackend
+                name: mybackend-clusterip
                 port:
                   number: 9000
           - path: /(.*)
             pathType: Prefix
             backend:
               service:
-                name: my-nginx-clusterip
+                name: myfrontend-clusterip
                 port:
-                  number: 80
+                  number: 8080

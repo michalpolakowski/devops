@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx-deployment
+  name: nginx-deployment
   labels:
     component: web
     app: my-app
@@ -9,14 +9,14 @@ metadata:
 spec:
   template:
     metadata:
-      name: my-nginx-pod
+      name: nginx-pod
       labels:
         component: web
         app: my-app
     spec:
       containers:
-        - name: my-nginx-container
-          image: nginx:alpine
+        - name: nginx-container
+          image: antongreen/mynginx
 
   replicas: 3
   selector:

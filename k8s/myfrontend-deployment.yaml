@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mybackend-deployment
+  name: myfrontend-deployment
   labels:
-    component: mybackend
-    app: my-app
+    component: myfrontend
+    app: my-app-front
 
 spec:
   template:
     metadata:
-      name: mybackend-pod
+      name: myfrontend-pod
       labels:
-        component: mybackend
-        app: my-app
+        component: myfrontend
+        app: my-app-front
     spec:
       containers:
         - name: mybackend-container
@@ -21,5 +21,5 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
-      component: mybackend
+      app: my-app-front
+      component: myfrontend

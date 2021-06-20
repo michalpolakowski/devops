@@ -8,7 +8,7 @@ metadata:
 
 spec:
   rules:
-    - host: myapp-ingress
+    - host: minikube.info
       http:
         paths:
           - path: /api/(.*)

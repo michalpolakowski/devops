@@ -20,7 +20,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`http://localhost:9090/base/pub/${this.$route.params.id}`).then(
+    axios.get(`/api/base/pub/${this.$route.params.id}`).then(
         resp => this.pub = resp.data
     )
   }

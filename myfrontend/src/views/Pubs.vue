@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     deletePub( id ) {
-      axios.delete(`http://localhost:9090/base/pub/${id}`).then(
+      axios.delete(`/api/base/pub/${id}`).then(
           () => {
             this.pubs = this.pubs.filter(pub => pub.id !== id)
           }

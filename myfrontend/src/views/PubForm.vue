@@ -19,8 +19,15 @@
       </div>
     </div>
     <div class="p-mb-3">
-      <Button v-on:click="createPub">{{editMode ? 'Edit pub' : 'Create pub'}}</Button>
-      <div v-if="success">PUB CREATED</div>
+      <template v-if="editMode">
+        <Button v-on:click="editPub">{{'Edit pub'}}</Button>
+        <div v-if="success">PUB EDITED</div>
+
+      </template>
+      <template v-else>
+        <Button v-on:click="createPub">{{'Create pub'}}</Button>
+        <div v-if="success">PUB CREATED</div>
+      </template>
       <div v-if="error">SOMETHING WENT WRONG</div>
     </div>
   </div>
@@ -42,12 +49,13 @@ export default {
       success: false,
       error: false,
       editMode: false,
+      editObjectId: undefined,
       pub: {}
     }
   },
   methods: {
     createPub() {
-      axios.post('http://localhost:9090/base/pubs', this.formData).then(
+      axios.post('/api/base/pubs', this.formData).then(
           () => this.success = true,
       ).catch(err => {
         this.error = true;
@@ -55,7 +63,7 @@ export default {
       })
     },
     editPub() {
-      axios.patch('http://localhost:9090/base/pubs', this.formData).then(
+      axios.patch(`/api/base/pub/${this.editObjectId}`, this.formData).then(
           () => this.success = true,
       ).catch(err => {
         this.error = true;
@@ -64,10 +72,10 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.params)
     if (this.$route.params.id) {
       this.editMode = true;
-      this.axios.get(`http://localhost:9090/base/pubs/${this.$route.params.id}`).then(
+      this.editObjectId = this.$route.params.id;
+      axios.get(`/api/base/pub/${this.$route.params.id}`).then(
           pub => {
             this.pub = pub
             this.formData.capacity = pub.data.capacity

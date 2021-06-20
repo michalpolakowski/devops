@@ -5,7 +5,6 @@ const router = express.Router()
 
 router.get('/pubs', ( req, res ) => {
   pgClient.query('SELECT * FROM pubs').then(pubs => {
-    console.log(pubs.rows)
     res.json(pubs.rows)
   })
 });
